@@ -18,6 +18,7 @@ The project currently has:
 - Governance files incorporating AI standards and safety rules.
 - Prompt templates.
 - Initial ADR for authentication direction.
+- High-fidelity interactive glassmorphic browser mockup in `/mockup/` for client presentation.
 
 ## Current product direction
 
@@ -53,6 +54,12 @@ The project currently has:
 - Corrected typo under `### Appointment` model definition in `DATA_MODELS.md`.
 - Configured Git remote origin pointing to `https://github.com/jonnexusinsights-lab/Vet_Groom_Appoint.git`.
 - Created repository configuration files (`.gitignore`, `.env.example`, `.gitattributes`) in the root directory.
+- Developed an interactive HTML/CSS/JS client-side mockup in the `/mockup` folder with LocalStorage persistence and automated duration calculation formulas.
+- Refactored client-side mockup to a fresh, light SaaS theme (Teal/Sky Blue) using open-source CDNs (Lucide Icons, Chart.js) for premium aesthetics and interactive reports.
+- Consolidated commercial proposals into a single, non-technical document (`proposal/fashion_pets_proposal.md`) representing an $1,800 USD total budget, a 90-day warranty, and 1-month free basic support onboarding at a 1 USD = 440 CRC rate.
+- Developed a sales presentation slide deck (`proposal/sales_presentation.md`) embedding mockup screenshot assets from the local image resources folder.
+- Created `utils/generate_slides.js` and compiled a self-contained, browser-ready interactive slide presentation `proposal/sales_presentation.html` featuring split column layouts (Text + Screenshot image), keyboard controls, progress indicators, and responsive canvas sizing.
+- Created `utils/generate_proposal_pdf.js` and compiled a printable HTML proposal `proposal/fashion_pets_proposal.html` styled with `@media print` for high-resolution browser-to-PDF export, featuring a cover page and signature grids.
 
 ## Session notes protocol
 

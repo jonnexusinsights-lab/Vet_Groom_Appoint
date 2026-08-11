@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Pets PZ - Grooming Operations Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Open Source CDN Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside>
+    <div class="brand">
+      <div class="brand-icon">
+        <i data-lucide="scissors" style="width: 20px; height: 20px;"></i>
+      </div>
+      <div class="brand-title">Fashion Pets PZ</div>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a class="nav-link active" data-section="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" data-section="schedule">
+          <i data-lucide="calendar"></i>
+          Schedule Grid
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" data-section="customers">
+          <i data-lucide="users"></i>
+          Customers & Pets
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" data-section="services">
+          <i data-lucide="settings"></i>
+          Services Catalog
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" data-section="reports">
+          <i data-lucide="bar-chart-3"></i>
+          Reports & Analytics
+        </a>
+      </li>
+    </ul>
+    <div class="footer-nav">
+      SaaS Operations Mockup v1.1
+    </div>
+  </aside>
+
+  <!-- Main View Container -->
+  <main>
+    <header>
+      <div class="header-title">
+        <h1 id="page-title">Operations Dashboard</h1>
+        <p id="current-date-display">Today's Schedule & Check-ins</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" id="btn-quick-booking">
+          <i data-lucide="plus"></i> New Booking
+        </button>
+      </div>
+    </header>
+
+    <!-- Quick Stats Bar -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: var(--secondary-glow); color: var(--secondary);">
+          <i data-lucide="calendar-days"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Appointments</h3>
+          <div class="value" id="stat-total-apt">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: var(--warning-glow); color: var(--warning);">
+          <i data-lucide="dog"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Checked In</h3>
+          <div class="value" id="stat-checked-in">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: var(--success-glow); color: var(--success);">
+          <i data-lucide="check-circle-2"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Completed</h3>
+          <div class="value" id="stat-completed">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: var(--primary-glow); color: var(--primary);">
+          <i data-lucide="dollar-sign"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Revenue Today</h3>
+          <div class="value" id="stat-revenue">$0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: DASHBOARD -->
+    <section id="dashboard-sec" class="content-section active">
+      <div class="alert-box">
+        <i data-lucide="info" class="alert-icon"></i>
+        <div>
+          <strong>SaaS dashboard tips:</strong> View calendar bookings in the <strong>Schedule Grid</strong>, or check-in, edit, and checkout customers directly in the active tables below.
+        </div>
+      </div>
+
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div class="panel-title">Today's Appointment Log</div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Real-time status updates</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Customer</th>
+                <th>Pet</th>
+                <th>Service</th>
+                <th>Groomer</th>
+                <th>Status</th>
+                <th>Balance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-apt-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SCHEDULE GRID -->
+    <section id="schedule-sec" class="content-section">
+      <div class="glass-panel" style="flex: 1; display: flex; flex-direction: column;">
+        <div class="panel-header">
+          <div class="panel-title">Daily Grooming Board</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 16px;">
+            <span>🟢 Checked-in</span>
+            <span>🟣 In-Progress</span>
+            <span>🔵 Scheduled</span>
+          </div>
+        </div>
+        
+        <!-- Interactive Schedule Board -->
+        <div class="calendar-layout">
+          <!-- Hour Labels column -->
+          <div class="calendar-hours" id="calendar-hours-column">
+            <!-- Dynamically populated hour cells -->
+          </div>
+
+          <!-- Staff/Groomer Grid Column Board -->
+          <div class="calendar-body">
+            <div class="calendar-staff-headers" id="calendar-staff-headers">
+              <!-- Dynamically populated headers -->
+            </div>
+            
+            <div class="calendar-grid-wrapper">
+              <!-- Grid background lines -->
+              <div class="calendar-grid-background" id="calendar-grid-background">
+                <!-- 10 rows for 10 hours -->
+              </div>
+              
+              <!-- Vertical column dividers -->
+              <div class="calendar-grid-columns" id="calendar-grid-columns">
+                <!-- Column lines -->
+              </div>
+
+              <!-- Clickable Appointments overlay -->
+              <div class="appointments-layer" id="appointments-layer">
+                <!-- Dynamically placed appointment cards -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: CUSTOMERS & PETS -->
+    <section id="customers-sec" class="content-section">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="cust-list">Customer Directory</button>
+        <button class="tab-btn" data-tab="cust-new">Register New Customer</button>
+        <button class="tab-btn" data-tab="pet-new">Add Pet Profile</button>
+      </div>
+
+      <!-- Tab: Customer List -->
+      <div id="tab-cust-list" class="tab-content active">
+        <div class="glass-panel">
+          <div class="search-bar-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" class="search-input" id="search-customers-input" placeholder="Search by customer name, phone number, or pet name...">
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Contact info</th>
+                  <th>Registered Pets</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="customers-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Register Customer -->
+      <div id="tab-cust-new" class="tab-content" style="display: none;">
+        <div class="glass-panel">
+          <div class="panel-title" style="margin-bottom: 20px;">Customer Registration Form</div>
+          <form id="form-new-customer">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="cust-fullname">Full Name *</label>
+                <input type="text" id="cust-fullname" required placeholder="e.g. John Doe">
+              </div>
+              <div class="form-group">
+                <label for="cust-phone">Phone Number *</label>
+                <input type="tel" id="cust-phone" required placeholder="e.g. 555-0100">
+              </div>
+              <div class="form-group">
+                <label for="cust-email">Email Address</label>
+                <input type="email" id="cust-email" placeholder="e.g. john@example.com">
+              </div>
+              <div class="form-group full-width">
+                <label for="cust-notes">Administrative Notes</label>
+                <textarea id="cust-notes" rows="3" placeholder="Special payment terms, alerts, or preferences..."></textarea>
+              </div>
+            </div>
+            <div style="margin-top: 24px; display: flex; gap: 12px;">
+              <button type="submit" class="btn btn-primary">Save Customer</button>
+              <button type="button" class="btn btn-secondary btn-cancel-tab">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab: Add Pet -->
+      <div id="tab-pet-new" class="tab-content" style="display: none;">
+        <div class="glass-panel">
+          <div class="panel-title" style="margin-bottom: 20px;">Create Pet Profile</div>
+          <form id="form-new-pet">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="pet-owner-select">Owner (Customer) *</label>
+                <select id="pet-owner-select" required>
+                  <option value="">-- Select Customer --</option>
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pet-name">Pet Name *</label>
+                <input type="text" id="pet-name" required placeholder="e.g. Buddy">
+              </div>
+              <div class="form-group">
+                <label for="pet-species">Species *</label>
+                <select id="pet-species" required>
+                  <option value="Dog">Dog</option>
+                  <option value="Cat">Cat</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pet-breed">Breed *</label>
+                <input type="text" id="pet-breed" required placeholder="e.g. Golden Retriever, Siamese">
+              </div>
+              <div class="form-group">
+                <label for="pet-size">Size (For duration formula) *</label>
+                <select id="pet-size" required>
+                  <option value="Small">Small (under 10kg) (+5 min)</option>
+                  <option value="Medium" selected>Medium (10-25kg) (+10 min)</option>
+                  <option value="Large">Large (25-45kg) (+15 min)</option>
+                  <option value="Giant">Giant (over 45kg) (+25 min)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pet-age">Age</label>
+                <input type="text" id="pet-age" placeholder="e.g. 2 years">
+              </div>
+              <div class="form-group">
+                <label for="pet-allergies">Allergies / Medical Alerts</label>
+                <input type="text" id="pet-allergies" placeholder="e.g. Oatmeal shampoo, sensitive skin">
+              </div>
+              <div class="form-group">
+                <label for="pet-behavior">Behavior observations</label>
+                <input type="text" id="pet-behavior" placeholder="e.g. Nervous around blowdryers, nippy on tail">
+              </div>
+            </div>
+            <div style="margin-top: 24px; display: flex; gap: 12px;">
+              <button type="submit" class="btn btn-primary">Create Profile</button>
+              <button type="button" class="btn btn-secondary btn-cancel-tab">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SERVICES CATALOG -->
+    <section id="services-sec" class="content-section">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div class="panel-title">Services & Pricing Base List</div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Standard catalog</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Base Duration</th>
+                <th>Base Price</th>
+              </tr>
+            </thead>
+            <tbody id="services-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: REPORTS & ANALYTICS -->
+    <section id="reports-sec" class="content-section">
+      <div class="report-grid">
+        <!-- Interactive Sales Chart -->
+        <div class="glass-panel">
+          <div class="panel-title" style="margin-bottom: 20px;">Daily Revenue Breakdown</div>
+          <div class="chart-wrapper">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Groomer Performance -->
+        <div class="glass-panel">
+          <div class="panel-title" style="margin-bottom: 20px;">Groomer Activity</div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Staff</th>
+                  <th>Jobs</th>
+                </tr>
+              </thead>
+              <tbody id="report-groomers-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Customer Retention Tool -->
+        <div class="glass-panel" style="grid-column: span 2;">
+          <div class="panel-header">
+            <div class="panel-title">Customer Retention Alerts (60+ Days Since Last Visit)</div>
+            <span style="background: var(--danger-glow); color: var(--danger); font-size: 0.75rem;" class="badge">Attention Needed</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+            The following clients have not booked an appointment in the last 60 days. Recommend sending marketing follow-ups.
+          </p>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Pet</th>
+                  <th>Phone Number</th>
+                  <th>Last Visit Service</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jonathan Garcia</td>
+                  <td>Sylvester (Cat)</td>
+                  <td>555-9876</td>
+                  <td>Feline Grooming Package</td>
+                  <td><span class="badge badge-pending">Needs Callback</span></td>
+                </tr>
+                <tr>
+                  <td>Emily Thorne</td>
+                  <td>Bella (Chihuahua)</td>
+                  <td>555-0777</td>
+                  <td>Nail Trim & Dremel</td>
+                  <td><span class="badge badge-pending">Overdue</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BACKGROUND OVERLAY BACKDROP FOR DRAWERS -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+
+  <!-- SLIDE-OVER DRAWER: APPOINTMENT DETAILS & CHECKOUT/PAYMENT -->
+  <div class="drawer" id="appointment-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title" id="drawer-apt-title">Appointment Details</div>
+      <button class="drawer-close" id="btn-close-apt-drawer">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
+    </div>
+    
+    <div class="drawer-content">
+      <!-- Status Box -->
+      <div id="drawer-status-banner" style="padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 0.9rem;">
+        STATUS
+      </div>
+
+      <!-- Quick details grid -->
+      <div style="display: flex; flex-direction: column;">
+        <div class="detail-row">
+          <span class="detail-label">Client Name</span>
+          <span class="detail-value" id="detail-cust-name">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Pet Details</span>
+          <span class="detail-value" id="detail-pet-name">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Service</span>
+          <span class="detail-value" id="detail-service-name">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Assigned Groomer</span>
+          <span class="detail-value" id="detail-groomer-name">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Scheduled Time</span>
+          <span class="detail-value" id="detail-time">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Duration</span>
+          <span class="detail-value" id="detail-duration">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Total Price Due</span>
+          <span class="detail-value" style="color: var(--primary); font-size: 1.1rem; font-weight: 700;" id="detail-price">$0</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Deposit Paid</span>
+          <span class="detail-value" id="detail-deposit">$0</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Balance Outstanding</span>
+          <span class="detail-value" style="color: var(--warning);" id="detail-balance">$0</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons depending on status -->
+      <div id="drawer-actions-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <!-- Dynamically injected buttons: Check-in, Start Service, Checkout, Cancel -->
+      </div>
+
+      <!-- Checkout Payment Form Panel -->
+      <div id="drawer-checkout-panel" style="display: none; border-top: 1px solid var(--panel-border); padding-top: 24px; margin-top: 10px;">
+        <h3 class="panel-title" style="margin-bottom: 16px; font-size: 1.1rem;">Record Client Payment</h3>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>Select Payment Method *</label>
+          <div class="payment-grid">
+            <div class="payment-method-card active" data-method="Cash">
+              <div class="payment-method-icon">💵</div>
+              <div class="payment-method-label">Cash</div>
+            </div>
+            <div class="payment-method-card" data-method="Card">
+              <div class="payment-method-icon">💳</div>
+              <div class="payment-method-label">Card</div>
+            </div>
+            <div class="payment-method-card" data-method="Transfer">
+              <div class="payment-method-icon">🏦</div>
+              <div class="payment-method-label">Transfer</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="checkout-amount">Total Collected Amount ($) *</label>
+          <input type="number" id="checkout-amount" required>
+        </div>
+        <button class="btn btn-primary" style="width: 100%;" id="btn-submit-payment">Finalize & Print Invoice</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER DRAWER: NEW APPOINTMENT BOOKING FORM -->
+  <div class="drawer" id="booking-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">Book New Appointment</div>
+      <button class="drawer-close" id="btn-close-booking-drawer">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
+    </div>
+    
+    <div class="drawer-content">
+      <form id="form-new-booking">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <div class="form-group">
+            <label for="book-cust-select">Select Customer *</label>
+            <select id="book-cust-select" required>
+              <option value="">-- Choose Customer --</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="book-pet-select">Select Pet *</label>
+            <select id="book-pet-select" required disabled>
+              <option value="">-- Select Customer First --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="book-service-select">Grooming Service *</label>
+            <select id="book-service-select" required>
+              <option value="">-- Choose Service --</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="book-groomer-select">Assigned Groomer/Stylist *</label>
+            <select id="book-groomer-select" required>
+              <option value="">-- Choose Groomer --</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="book-date">Appointment Date *</label>
+              <input type="date" id="book-date" required>
+            </div>
+            <div class="form-group">
+              <label for="book-time">Start Time *</label>
+              <select id="book-time" required>
+                <option value="08:00">08:00 AM</option>
+                <option value="09:00">09:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="17:00">05:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="book-deposit">Deposit Paid ($)</label>
+              <input type="number" id="book-deposit" value="0">
+            </div>
+            <div class="form-group">
+              <label>Estimated Price & Duration</label>
+              <div id="booking-estimate-summary" style="font-size: 0.85rem; color: var(--primary); font-weight: 600; padding: 12px; background: var(--primary-glow); border-radius: 8px; border: 1px solid rgba(13, 148, 136, 0.15); display: flex; align-items: center; justify-content: center;">
+                Select service & pet to calculate
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="book-notes">Special Grooming Instructions</label>
+            <textarea id="book-notes" rows="2" placeholder="e.g. Scissor cut only, allergies..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Create Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="mockData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
