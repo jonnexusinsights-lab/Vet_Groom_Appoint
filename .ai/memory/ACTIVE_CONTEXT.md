@@ -51,6 +51,7 @@ The project currently has:
 - Added AI-specific standards to `STANDARDS.md` and safety/mocking rules to `TOOLING_RULES.md`.
 - Added prompt-engineering workflows to `WORKFLOWS.md`.
 - Corrected typo under `### Appointment` model definition in `DATA_MODELS.md`.
+- Configured Git remote origin pointing to `https://github.com/jonnexusinsights-lab/Vet_Groom_Appoint.git`.
 
 ## Session notes protocol
 
