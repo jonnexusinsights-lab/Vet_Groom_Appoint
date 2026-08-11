@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js Build Output
+.next/
+out/
+build/
+dist/
+
+# Logs and Debugging
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Environment Variables
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Vercel Configuration
+.vercel
+
+# TypeScript Compilation Info
+*.tsbuildinfo
+next-env.d.ts
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+.settings/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Thumbs.db
+
+# Databases & Prisma Local DBs
+*.db
+*.db-journal
+/prisma/migrations/
+/prisma/dev.db
+
+# Docker
+docker-compose.override.yml

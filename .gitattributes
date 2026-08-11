@@ -1,0 +1,27 @@
+# Set default behavior to automatic text normalization (converts CRLF to LF in repo)
+* text=auto
+
+# Enforce LF line endings for source code and config files
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.prisma text eol=lf
+*.sh text eol=lf
+*.dockerfile text eol=lf
+
+# Explicitly mark binary files to prevent line-ending normalization attempts
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

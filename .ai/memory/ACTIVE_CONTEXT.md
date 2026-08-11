@@ -52,6 +52,7 @@ The project currently has:
 - Added prompt-engineering workflows to `WORKFLOWS.md`.
 - Corrected typo under `### Appointment` model definition in `DATA_MODELS.md`.
 - Configured Git remote origin pointing to `https://github.com/jonnexusinsights-lab/Vet_Groom_Appoint.git`.
+- Created repository configuration files (`.gitignore`, `.env.example`, `.gitattributes`) in the root directory.
 
 ## Session notes protocol
 
