@@ -6,7 +6,9 @@ class MockupApp {
       users: [],
       customers: [],
       pets: [],
-      appointments: []
+      appointments: [],
+      lang: "en",
+      theme: "light"
     };
     
     this.currentSection = "dashboard";
@@ -23,7 +25,11 @@ class MockupApp {
     const savedData = localStorage.getItem("fashion_pets_data");
     if (savedData) {
       this.state = JSON.parse(savedData);
+      if (!this.state.lang) this.state.lang = "en";
+      if (!this.state.theme) this.state.theme = "light";
     } else {
+      this.state.lang = "en";
+      this.state.theme = "light";
       // Setup initial data
       this.state.services = window.DEFAULT_MOCK_DATA.services;
       this.state.users = window.DEFAULT_MOCK_DATA.users;
@@ -40,12 +46,27 @@ class MockupApp {
       this.saveState();
     }
 
+    // Apply dark theme if saved
+    if (this.state.theme === "dark") {
+      document.body.classList.add("dark-theme");
+    }
+    const themeIcon = document.getElementById("theme-icon");
+    if (themeIcon) {
+      themeIcon.setAttribute("data-lucide", this.state.theme === "dark" ? "moon" : "sun");
+    }
+
     // Set today's date in header
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById("current-date-display").textContent = new Date().toLocaleDateString('en-US', options);
+    this.updateDateDisplay();
 
     this.registerEventListeners();
+    this.translatePage();
     this.render();
+  }
+
+  updateDateDisplay() {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const locale = this.state.lang === "es" ? "es-ES" : "en-US";
+    document.getElementById("current-date-display").textContent = new Date().toLocaleDateString(locale, options);
   }
 
   saveState() {
@@ -60,6 +81,16 @@ class MockupApp {
         const target = link.getAttribute("data-section");
         this.switchSection(target);
       });
+    });
+
+    // Language Toggle Trigger
+    document.getElementById("btn-lang-toggle").addEventListener("click", () => {
+      this.toggleLanguage();
+    });
+
+    // Theme Toggle Trigger
+    document.getElementById("btn-theme-toggle").addEventListener("click", () => {
+      this.toggleTheme();
     });
 
     // Customer Sub-tabs
@@ -152,11 +183,11 @@ class MockupApp {
 
       // Update Page title
       const titleElement = document.getElementById("page-title");
-      if (sectionId === "dashboard") titleElement.textContent = "Operations Dashboard";
-      else if (sectionId === "schedule") titleElement.textContent = "Interactive Schedule Board";
-      else if (sectionId === "customers") titleElement.textContent = "Customers & Pets Database";
-      else if (sectionId === "services") titleElement.textContent = "Services Catalog";
-      else if (sectionId === "reports") titleElement.textContent = "Business Reports & Analytics";
+      if (sectionId === "dashboard") titleElement.textContent = this.t("title_dashboard");
+      else if (sectionId === "schedule") titleElement.textContent = this.t("title_schedule");
+      else if (sectionId === "customers") titleElement.textContent = this.t("title_customers");
+      else if (sectionId === "services") titleElement.textContent = this.t("title_services");
+      else if (sectionId === "reports") titleElement.textContent = this.t("title_reports");
 
       this.render();
     }
@@ -172,7 +203,7 @@ class MockupApp {
       drawer = document.getElementById("booking-drawer");
       this.populateBookingSelects();
       document.getElementById("form-new-booking").reset();
-      document.getElementById("booking-estimate-summary").textContent = "Select service & pet to calculate";
+      document.getElementById("booking-estimate-summary").textContent = this.t("estimate_placeholder");
       document.getElementById("book-pet-select").disabled = true;
       
       const todayISO = new Date().toISOString().split('T')[0];
@@ -226,19 +257,19 @@ class MockupApp {
 
   populateBookingSelects() {
     const custSelect = document.getElementById("book-cust-select");
-    custSelect.innerHTML = `<option value="">-- Choose Customer --</option>`;
+    custSelect.innerHTML = `<option value="">${this.t("opt_select_cust")}</option>`;
     this.state.customers.forEach(c => {
       custSelect.innerHTML += `<option value="${c.id}">${c.fullName} (${c.phone})</option>`;
     });
 
     const srvSelect = document.getElementById("book-service-select");
-    srvSelect.innerHTML = `<option value="">-- Choose Service --</option>`;
+    srvSelect.innerHTML = `<option value="">${this.t("opt_choose_service")}</option>`;
     this.state.services.forEach(s => {
       srvSelect.innerHTML += `<option value="${s.id}">${s.name} ($${s.basePrice})</option>`;
     });
 
     const grSelect = document.getElementById("book-groomer-select");
-    grSelect.innerHTML = `<option value="">-- Choose Groomer --</option>`;
+    grSelect.innerHTML = `<option value="">${this.t("opt_choose_groomer")}</option>`;
     this.state.users.filter(u => u.role === "groomer").forEach(g => {
       grSelect.innerHTML += `<option value="${g.id}">${g.name.split(' ')[0]}</option>`;
     });
@@ -247,19 +278,19 @@ class MockupApp {
   populatePetSelect(customerId) {
     const petSelect = document.getElementById("book-pet-select");
     if (!customerId) {
-      petSelect.innerHTML = `<option value="">-- Select Customer First --</option>`;
+      petSelect.innerHTML = `<option value="">${this.t("opt_select_cust_first")}</option>`;
       petSelect.disabled = true;
       return;
     }
 
     const customerPets = this.state.pets.filter(p => p.customerId === customerId && p.activeStatus === "active");
     if (customerPets.length === 0) {
-      petSelect.innerHTML = `<option value="">No active pets found</option>`;
+      petSelect.innerHTML = `<option value="">${this.t("opt_no_active_pets")}</option>`;
       petSelect.disabled = true;
       return;
     }
 
-    petSelect.innerHTML = `<option value="">-- Choose Pet --</option>`;
+    petSelect.innerHTML = `<option value="">${this.t("opt_choose_pet")}</option>`;
     customerPets.forEach(p => {
       petSelect.innerHTML += `<option value="${p.id}">${p.name} (${p.breed} - ${p.size})</option>`;
     });
@@ -325,6 +356,7 @@ class MockupApp {
     this.state.appointments.push(newApt);
     this.saveState();
     this.closeDrawer();
+    this.showToast(this.t("toast_booking_success"), "success");
     this.render();
   }
 
@@ -347,6 +379,7 @@ class MockupApp {
     
     document.getElementById("form-new-customer").reset();
     document.querySelector('[data-tab="cust-list"]').click();
+    this.showToast(this.t("toast_customer_success"), "success");
     this.render();
   }
 
@@ -378,6 +411,7 @@ class MockupApp {
 
     document.getElementById("form-new-pet").reset();
     document.querySelector('[data-tab="cust-list"]').click();
+    this.showToast(this.t("toast_pet_success"), "success");
     this.render();
   }
 
@@ -470,6 +504,7 @@ class MockupApp {
     apt.status = newStatus;
     this.saveState();
     this.populateAppointmentDetails(aptId);
+    this.showToast(this.t("toast_status_success"), "info");
     this.render();
   }
 
@@ -482,6 +517,7 @@ class MockupApp {
     apt.paymentMethod = this.selectedPaymentMethod;
     this.saveState();
     this.closeDrawer();
+    this.showToast(this.t("toast_checkout_success"), "success");
     this.render();
   }
 
@@ -639,6 +675,21 @@ class MockupApp {
 
       appointmentsLayer.appendChild(card);
     });
+
+    // Render Current Time Indicator line if today is selected
+    const now = new Date();
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    if (currentHours >= 8 && currentHours < 18) {
+      const timeOffsetHours = (currentHours + currentMinutes / 60) - 8;
+      const markerTop = timeOffsetHours * 50;
+
+      const marker = document.createElement("div");
+      marker.className = "current-time-marker";
+      marker.style.top = `${markerTop}px`;
+      appointmentsLayer.appendChild(marker);
+    }
   }
 
   renderCustomerTable(filterQuery = "") {
@@ -655,7 +706,18 @@ class MockupApp {
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No matching customers found.</td></tr>`;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="empty-state">
+              <i data-lucide="search-x" class="empty-state-icon" style="width: 44px; height: 44px; stroke-width: 1.5px;"></i>
+              <div class="empty-state-title">${this.t("empty_search_title")}</div>
+              <div class="empty-state-desc">${this.t("empty_search_desc")}</div>
+            </div>
+          </td>
+        </tr>
+      `;
+      lucide.createIcons();
       return;
     }
 
@@ -750,10 +812,16 @@ class MockupApp {
     const transSum = transApts.reduce((s, a) => s + a.paymentAmount, 0);
 
     const ctx = ctxElement.getContext('2d');
+    
+    // Localized chart labels
+    const labelCash = '💵 ' + this.t("cash");
+    const labelCard = '💳 ' + this.t("card");
+    const labelTransfer = '🏦 ' + this.t("transfer");
+
     this.revenueChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['💵 Cash', '💳 Card', '🏦 Transfer'],
+        labels: [labelCash, labelCard, labelTransfer],
         datasets: [{
           data: [cashSum, cardSum, transSum],
           backgroundColor: ['#0d9488', '#0ea5e9', '#6366f1'],
@@ -783,6 +851,98 @@ class MockupApp {
         cutout: '65%'
       }
     });
+  }
+
+  t(key) {
+    const lang = this.state.lang || "en";
+    if (window.MOCKUP_TRANSLATIONS && window.MOCKUP_TRANSLATIONS[lang] && window.MOCKUP_TRANSLATIONS[lang][key]) {
+      return window.MOCKUP_TRANSLATIONS[lang][key];
+    }
+    return key;
+  }
+
+  toggleLanguage() {
+    this.state.lang = this.state.lang === "en" ? "es" : "en";
+    this.saveState();
+    this.updateDateDisplay();
+    
+    // Update switch toggle label text
+    const langText = document.getElementById("lang-text");
+    if (langText) {
+      langText.textContent = this.state.lang === "en" ? "ES" : "EN";
+    }
+
+    // Re-translate and re-render everything
+    this.translatePage();
+    this.switchSection(this.currentSection); // This translates the header title too!
+    this.render();
+  }
+
+  translatePage() {
+    // Translate text content
+    document.querySelectorAll("[data-translate-key]").forEach(el => {
+      const key = el.getAttribute("data-translate-key");
+      el.textContent = this.t(key);
+    });
+
+    // Translate input placeholders
+    document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-translate-placeholder");
+      el.placeholder = this.t(key);
+    });
+
+    // Toggle button text representation
+    const langText = document.getElementById("lang-text");
+    if (langText) {
+      langText.textContent = this.state.lang === "en" ? "ES" : "EN";
+    }
+  }
+
+  toggleTheme() {
+    const isDark = document.body.classList.toggle("dark-theme");
+    this.state.theme = isDark ? "dark" : "light";
+    this.saveState();
+    
+    // Update theme icon
+    const icon = document.getElementById("theme-icon");
+    if (icon) {
+      icon.setAttribute("data-lucide", isDark ? "moon" : "sun");
+      lucide.createIcons();
+    }
+    
+    // Show toast notification
+    this.showToast(this.t(isDark ? "toast_theme_dark" : "toast_theme_light"), "info");
+  }
+
+  showToast(message, type = "success") {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+    
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    
+    let iconName = "check-circle-2";
+    if (type === "info") iconName = "info";
+    if (type === "warning") iconName = "alert-triangle";
+    if (type === "danger") iconName = "alert-octagon";
+    
+    toast.innerHTML = `
+      <div class="toast-icon">
+        <i data-lucide="${iconName}"></i>
+      </div>
+      <div class="toast-message">${message}</div>
+    `;
+    
+    container.appendChild(toast);
+    lucide.createIcons();
+    
+    // Slide out after 3.5 seconds
+    setTimeout(() => {
+      toast.classList.add("fade-out");
+      toast.addEventListener("animationend", () => {
+        toast.remove();
+      });
+    }, 3500);
   }
 }
 

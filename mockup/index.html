@@ -23,36 +23,36 @@
       <li>
         <a class="nav-link active" data-section="dashboard">
           <i data-lucide="layout-dashboard"></i>
-          Dashboard
+          <span data-translate-key="nav_dashboard">Dashboard</span>
         </a>
       </li>
       <li>
         <a class="nav-link" data-section="schedule">
           <i data-lucide="calendar"></i>
-          Schedule Grid
+          <span data-translate-key="nav_schedule">Schedule Grid</span>
         </a>
       </li>
       <li>
         <a class="nav-link" data-section="customers">
           <i data-lucide="users"></i>
-          Customers & Pets
+          <span data-translate-key="nav_customers">Customers & Pets</span>
         </a>
       </li>
       <li>
         <a class="nav-link" data-section="services">
           <i data-lucide="settings"></i>
-          Services Catalog
+          <span data-translate-key="nav_services">Services Catalog</span>
         </a>
       </li>
       <li>
         <a class="nav-link" data-section="reports">
           <i data-lucide="bar-chart-3"></i>
-          Reports & Analytics
+          <span data-translate-key="nav_reports">Reports & Analytics</span>
         </a>
       </li>
     </ul>
     <div class="footer-nav">
-      SaaS Operations Mockup v1.1
+      <span data-translate-key="nav_footer">SaaS Operations Mockup v1.1</span>
     </div>
   </aside>
 
@@ -60,12 +60,19 @@
   <main>
     <header>
       <div class="header-title">
-        <h1 id="page-title">Operations Dashboard</h1>
-        <p id="current-date-display">Today's Schedule & Check-ins</p>
+        <h1 id="page-title" data-translate-key="title_dashboard">Operations Dashboard</h1>
+        <p id="current-date-display" data-translate-key="today_schedule">Today's Schedule & Check-ins</p>
       </div>
-      <div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn" id="btn-theme-toggle" style="background: white; border: 1px solid var(--panel-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 8px; cursor: pointer;" title="Toggle Light/Dark Theme">
+          <i data-lucide="sun" id="theme-icon" style="width: 18px; height: 18px;"></i>
+        </button>
+        <button class="btn" id="btn-lang-toggle" style="background: white; border: 1px solid var(--panel-border); color: var(--text-main); display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 0.9rem; padding: 8px 16px; border-radius: 8px; cursor: pointer;">
+          <i data-lucide="languages" style="width: 16px; height: 16px;"></i>
+          <span id="lang-text">ES</span>
+        </button>
         <button class="btn btn-primary" id="btn-quick-booking">
-          <i data-lucide="plus"></i> New Booking
+          <i data-lucide="plus"></i> <span data-translate-key="new_booking">New Booking</span>
         </button>
       </div>
     </header>
@@ -77,7 +84,7 @@
           <i data-lucide="calendar-days"></i>
         </div>
         <div class="stat-details">
-          <h3>Appointments</h3>
+          <h3 data-translate-key="stat_appointments">Appointments</h3>
           <div class="value" id="stat-total-apt">0</div>
         </div>
       </div>
@@ -86,7 +93,7 @@
           <i data-lucide="dog"></i>
         </div>
         <div class="stat-details">
-          <h3>Checked In</h3>
+          <h3 data-translate-key="stat_checked_in">Checked In</h3>
           <div class="value" id="stat-checked-in">0</div>
         </div>
       </div>
@@ -95,7 +102,7 @@
           <i data-lucide="check-circle-2"></i>
         </div>
         <div class="stat-details">
-          <h3>Completed</h3>
+          <h3 data-translate-key="stat_completed">Completed</h3>
           <div class="value" id="stat-completed">0</div>
         </div>
       </div>
@@ -104,7 +111,7 @@
           <i data-lucide="dollar-sign"></i>
         </div>
         <div class="stat-details">
-          <h3>Revenue Today</h3>
+          <h3 data-translate-key="stat_revenue">Revenue Today</h3>
           <div class="value" id="stat-revenue">$0</div>
         </div>
       </div>
@@ -115,27 +122,27 @@
       <div class="alert-box">
         <i data-lucide="info" class="alert-icon"></i>
         <div>
-          <strong>SaaS dashboard tips:</strong> View calendar bookings in the <strong>Schedule Grid</strong>, or check-in, edit, and checkout customers directly in the active tables below.
+          <strong data-translate-key="tip_saas">SaaS dashboard tips:</strong> <span data-translate-key="tip_text">View calendar bookings in the Schedule Grid, or check-in, edit, and checkout customers directly in the active tables below.</span>
         </div>
       </div>
 
       <div class="glass-panel">
         <div class="panel-header">
-          <div class="panel-title">Today's Appointment Log</div>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Real-time status updates</span>
+          <div class="panel-title" data-translate-key="apt_log">Today's Appointment Log</div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" data-translate-key="realtime_updates">Real-time status updates</span>
         </div>
         <div style="overflow-x: auto;">
           <table>
             <thead>
               <tr>
-                <th>Time</th>
-                <th>Customer</th>
-                <th>Pet</th>
-                <th>Service</th>
-                <th>Groomer</th>
-                <th>Status</th>
-                <th>Balance</th>
-                <th>Actions</th>
+                <th data-translate-key="th_time">Time</th>
+                <th data-translate-key="th_customer">Customer</th>
+                <th data-translate-key="th_pet">Pet</th>
+                <th data-translate-key="th_service">Service</th>
+                <th data-translate-key="th_groomer">Groomer</th>
+                <th data-translate-key="th_status">Status</th>
+                <th data-translate-key="th_balance">Balance</th>
+                <th data-translate-key="th_actions">Actions</th>
               </tr>
             </thead>
             <tbody id="dashboard-apt-table-body">
@@ -150,11 +157,11 @@
     <section id="schedule-sec" class="content-section">
       <div class="glass-panel" style="flex: 1; display: flex; flex-direction: column;">
         <div class="panel-header">
-          <div class="panel-title">Daily Grooming Board</div>
+          <div class="panel-title" data-translate-key="daily_board">Daily Grooming Board</div>
           <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 16px;">
-            <span>🟢 Checked-in</span>
-            <span>🟣 In-Progress</span>
-            <span>🔵 Scheduled</span>
+            <span data-translate-key="legend_checked_in">🟢 Checked-in</span>
+            <span data-translate-key="legend_in_progress">🟣 In-Progress</span>
+            <span data-translate-key="legend_scheduled">🔵 Scheduled</span>
           </div>
         </div>
         
@@ -196,9 +203,9 @@
     <!-- SECTION 3: CUSTOMERS & PETS -->
     <section id="customers-sec" class="content-section">
       <div class="tab-bar">
-        <button class="tab-btn active" data-tab="cust-list">Customer Directory</button>
-        <button class="tab-btn" data-tab="cust-new">Register New Customer</button>
-        <button class="tab-btn" data-tab="pet-new">Add Pet Profile</button>
+        <button class="tab-btn active" data-tab="cust-list" data-translate-key="tab_cust_list">Customer Directory</button>
+        <button class="tab-btn" data-tab="cust-new" data-translate-key="tab_cust_new">Register New Customer</button>
+        <button class="tab-btn" data-tab="pet-new" data-translate-key="tab_pet_new">Add Pet Profile</button>
       </div>
 
       <!-- Tab: Customer List -->
@@ -206,17 +213,17 @@
         <div class="glass-panel">
           <div class="search-bar-container">
             <i data-lucide="search" class="search-icon"></i>
-            <input type="text" class="search-input" id="search-customers-input" placeholder="Search by customer name, phone number, or pet name...">
+            <input type="text" class="search-input" id="search-customers-input" placeholder="Search by customer name, phone number, or pet name..." data-translate-placeholder="placeholder_search">
           </div>
           <div style="overflow-x: auto;">
             <table>
               <thead>
                 <tr>
-                  <th>Customer Name</th>
-                  <th>Contact info</th>
-                  <th>Registered Pets</th>
-                  <th>Notes</th>
-                  <th>Actions</th>
+                  <th data-translate-key="th_customer">Customer Name</th>
+                  <th data-translate-key="th_contact">Contact info</th>
+                  <th data-translate-key="th_pets">Registered Pets</th>
+                  <th data-translate-key="th_notes">Notes</th>
+                  <th data-translate-key="th_actions">Actions</th>
                 </tr>
               </thead>
               <tbody id="customers-table-body">
@@ -597,6 +604,9 @@
     </div>
   </div>
 
+  <div id="toast-container" style="position: fixed; top: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; pointer-events: none;"></div>
+
+  <script src="translations.js"></script>
   <script src="mockData.js"></script>
   <script src="app.js"></script>
 </body>

@@ -61,6 +61,9 @@ The project currently has:
 - Created `utils/generate_slides.js` and compiled a self-contained, browser-ready interactive slide presentation `proposal/sales_presentation.html` featuring split column layouts (Text + Screenshot image), keyboard controls, progress indicators, and responsive canvas sizing.
 - Created `utils/generate_proposal_pdf.js` and compiled a printable HTML proposal `proposal/fashion_pets_proposal.html` styled with `@media print` for high-resolution browser-to-PDF export, featuring a cover page and signature grids.
 - Initialized the `/docs/` folder containing `user_guide.md`, `how_to.md`, and `troubleshooting.md` to guide operations, daily actions, and local network setups.
+- Integrated real-time English/Spanish internationalization (i18n) translation support into the client mockup with state persistence, localized date headers, and custom DOM translation attributes.
+- Registered the `UI_UX_ENGINEER` role and `UI_UX_DESIGN` skill in `.ai/roles/` and `.ai/skills/` respectively, mapping required modes (`PLAN_MODE` and `EXEC_MODE`) and routing rules inside `AGENTS.md`.
+- Upgraded the UI/UX design quality of the client mockup with a Dark Mode theme toggle (featuring smooth CSS color/border transitions), a tactile Toast Notification system for actions, illustrative empty search directory states, and a vertical Current Time indicator line on the scheduling board.
 
 ## Session notes protocol
 

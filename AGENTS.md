@@ -33,6 +33,7 @@ Use the role that best matches the dominant objective:
 - `REVIEWER` for change assessment, maintainability, standards compliance, and risk detection.
 - `QA_ENGINEER` for validation, edge cases, test design, and quality verification.
 - `AI_ENGINEER` for AI integrations, prompt engineering, agent behavior design, vector/RAG alignment, and automation workflows.
+- `UI_UX_ENGINEER` for user interface mockups, styling systems, visual design, responsiveness, typography scales, page layouts, and internationalization toggle interfaces.
 
 ### Choose a mode second
 
@@ -51,6 +52,7 @@ Use the skill set that best matches the task type:
 - `CODE_REVIEW`
 - `REFACTORING`
 - `SECURITY_AUDIT`
+- `UI_UX_DESIGN`
 
 ## Global constraints
 
@@ -98,6 +100,8 @@ Typical combinations:
 - Technical debt cleanup: `CODER` + `EXEC_MODE` + `REFACTORING`
 - AI integrations & prompt design: `AI_ENGINEER` + `PLAN_MODE` + `SYSTEM_DESIGN`
 - Prompt refinement & template updates: `AI_ENGINEER` + `EXEC_MODE` + `REFACTORING`
+- User interface planning & mockups: `UI_UX_ENGINEER` + `PLAN_MODE` + `UI_UX_DESIGN`
+- Visual styling & component implementations: `UI_UX_ENGINEER` + `EXEC_MODE` + `UI_UX_DESIGN`
 
 ## Precedence
 
