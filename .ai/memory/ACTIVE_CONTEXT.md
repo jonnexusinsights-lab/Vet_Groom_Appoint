@@ -60,6 +60,7 @@ The project currently has:
 - Developed a sales presentation slide deck (`proposal/sales_presentation.md`) embedding mockup screenshot assets from the local image resources folder.
 - Created `utils/generate_slides.js` and compiled a self-contained, browser-ready interactive slide presentation `proposal/sales_presentation.html` featuring split column layouts (Text + Screenshot image), keyboard controls, progress indicators, and responsive canvas sizing.
 - Created `utils/generate_proposal_pdf.js` and compiled a printable HTML proposal `proposal/fashion_pets_proposal.html` styled with `@media print` for high-resolution browser-to-PDF export, featuring a cover page and signature grids.
+- Initialized the `/docs/` folder containing `user_guide.md`, `how_to.md`, and `troubleshooting.md` to guide operations, daily actions, and local network setups.
 
 ## Session notes protocol
 
